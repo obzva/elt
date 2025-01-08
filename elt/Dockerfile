@@ -13,6 +13,12 @@ RUN apt-get update \
     # install postgresql-client in the latest version
     && apt-get install -y postgresql-client
 
+COPY start.sh /app/start.sh
+
 COPY elt_script.py .
+
+WORKDIR /app
+
+RUN "echo 0 3 * * * python /app/elt_script.py" | crontab -
 
 CMD ["python", "elt_script.py"]
